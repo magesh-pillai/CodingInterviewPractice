@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Chapter1
 {
     [TestFixture]
-    public class Chapter1Tests
+    public class Exercise1Tests
     {
         [Test]
         public void IsUnique_NullText_Throws()

@@ -2,9 +2,13 @@ using System;
 
 namespace Chapter1
 {
+    // O(n^2) time, O(1) space
+    // Others: Merge-Sort + scan, O(nlgn) time, O(n) space
+    //         Hashtable/Bit vector, O(n) expected time, O(c) space
+    // Notes:  Unicode issues, Can we assume character space is fixed ?
+
     public static class Exercise1
     {
-        // O(n^2) time complexity, O(1) space complexity
         public static bool IsUnique(string text)
         {
             if (text == null) throw new ArgumentNullException(nameof(text));
