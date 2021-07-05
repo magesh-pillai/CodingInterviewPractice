@@ -6,6 +6,12 @@ namespace Chapter1
     [TestFixture]
     public class Chapter1Tests
     {
+        [Test]
+        public void IsUnique_NullText_Throws()
+        {
+            Assert.Throws<ArgumentNullException>(() => Exercise1.IsUnique(null));
+        }
+        
         [TestCase("", true)]
         [TestCase("a", true)]
         [TestCase("abc", true)]
