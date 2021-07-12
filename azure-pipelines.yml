@@ -13,3 +13,6 @@ steps:
 
 - script: dotnet build --configuration $(buildConfiguration) --no-restore
   displayName: 'Build solution'
+
+- script: dotnet test --configuration $(buildConfiguration)
+  displayName: 'Run unit tests for solution'

@@ -2,7 +2,7 @@ using System;
 
 namespace Chapter1
 {
-    // O(n^2) time, O(1) space
+    // Brute force: O(n^2) time, O(1) space
     // Others: Merge-Sort + scan, O(nlgn) time, O(n) space
     //         Hashtable/Bit vector, O(n) expected time, O(c) space
     // Notes:  Unicode issues, Can we assume character space is fixed ?
