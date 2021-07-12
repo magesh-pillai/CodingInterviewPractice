@@ -8,11 +8,25 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- script: dotnet restore 
+- task: DotNetCoreCLI@2
   displayName: 'Restore nuget packages'
+  inputs:
+    command: 'restore'
 
-- script: dotnet build --configuration $(buildConfiguration) --no-restore
+- task: DotNetCoreCLI@2
   displayName: 'Build solution'
+  inputs:
+      command: 'build'
+      arguments: '--no-restore  --configuration $(buildConfiguration)'
+  
+- task: DotNetCoreCLI@2
+  displayName: 'Run unit tests'
+  inputs:
+      command: 'test'
+      arguments: '--configuration $(buildConfiguration)'
+     
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'NUnit'
 
-- script: dotnet test --configuration $(buildConfiguration)
-  displayName: 'Run unit tests for solution'
+   
