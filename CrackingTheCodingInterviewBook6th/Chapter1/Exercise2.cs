@@ -4,9 +4,10 @@ namespace Chapter1
 {
     public static class Exercise2
     {
-        // Hashtable count of characters, O(n) expected time, O(n) space
+        // Hashtable count of characters: O(n) expected time, O(n) space
         // Others: Sort strings & compare O(nlgn) time, O(n) space
         //         Balanced bst with count and then decrement, O(nlgn) time, O(n) space
+        // Notes: May check if character set limited and use array counts
         public static bool CheckPermutation(string input1, string input2)
         {
             if (input1 == null && input2 == null) return true;
