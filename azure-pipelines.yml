@@ -25,8 +25,3 @@ steps:
       command: 'test'
       arguments: '--configuration $(buildConfiguration)'
      
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '**/*.trx'
-    searchFolder: '$(Agent.TempDirectory)'
