@@ -27,6 +27,6 @@ steps:
      
 - task: PublishTestResults@2
   inputs:
-    testResultsFormat: 'NUnit'
+    testResultsFormat: 'VSTest'
     testResultsFiles: '**/*.trx'
     searchFolder: '$(Agent.TempDirectory)'
