@@ -1,6 +1,7 @@
 using NUnit.Framework;
+using Chapter1;
 
-namespace Chapter1
+namespace Chapter1Tests
 {
     [TestFixture]
     public class Exercise2Tests
