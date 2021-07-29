@@ -4,7 +4,7 @@ using Chapter2;
 
 namespace Chapter2Tests
 {
-     [TestFixture]
+    [TestFixture]
     public class Exercise1Tests
     {
         [Test]
