@@ -30,9 +30,9 @@ namespace Chapter3
             var segmentSize = (int)Math.Floor(capacity / 3.0);
             _segments = new [] 
             {   
-                new StackArraySegment { Start = 0, Size = segmentSize },
-                new StackArraySegment { Start = segmentSize * 1, Size = segmentSize },
-                new StackArraySegment { Start = segmentSize * 2, Size = _buffer.Length - segmentSize },
+                new StackArraySegment { Start = 0, Capacity = segmentSize },
+                new StackArraySegment { Start = segmentSize * 1, Capacity = segmentSize },
+                new StackArraySegment { Start = segmentSize * 2, Capacity = _buffer.Length - segmentSize },
             };
         }
 
@@ -41,11 +41,15 @@ namespace Chapter3
             if (stackNumber < 1 || stackNumber > 3) throw new ArgumentOutOfRangeException(nameof(stackNumber));
         }
 
-        public void Push(int stackNumber, T item)
+        private int ToStackSegmentNumberOrThrow(int stackNumber) 
         {
             ThrowIfInvalidStackNumber(stackNumber);
+            return stackNumber - 1;
+        }
 
-            var stack = _segments[stackNumber];
+        public void Push(int stackNumber, T item)
+        {
+            var stack = _segments[ToStackSegmentNumberOrThrow(stackNumber)];
             if (stack.IsFull()) throw new Exception($"{stackNumber} overflow");
 
             stack.Size++;
@@ -55,9 +59,7 @@ namespace Chapter3
 
         public T Pop(int stackNumber)
         {
-            ThrowIfInvalidStackNumber(stackNumber);
-
-            var stack = _segments[stackNumber];
+            var stack = _segments[ToStackSegmentNumberOrThrow(stackNumber)];
             if (stack.IsEmpty()) throw new Exception($"{stackNumber} underflow");
 
             var item = _buffer[stack.Top];
@@ -68,20 +70,13 @@ namespace Chapter3
 
         public T Peek(int stackNumber)
         {
-            ThrowIfInvalidStackNumber(stackNumber);
-
-            var stack = _segments[stackNumber];
+            var stack = _segments[ToStackSegmentNumberOrThrow(stackNumber)];
             if (stack.IsEmpty()) throw new Exception($"{stackNumber} underflow");
 
             return _buffer[stack.Top];
         }
 
-        public bool IsEmpty(int stackNumber)
-        {
-            ThrowIfInvalidStackNumber(stackNumber);
-
-            return _segments[stackNumber].IsEmpty();
-        }
+        public bool IsEmpty(int stackNumber) => _segments[ToStackSegmentNumberOrThrow(stackNumber)].IsEmpty();
     }
 
     internal class StackArraySegment
@@ -91,7 +86,7 @@ namespace Chapter3
         public int Top { get; set; } = -1;
         public int Capacity { get; set; }
 
-        public bool IsEmpty() => Size < Capacity;
+        public bool IsEmpty() => Size <= 0;
 
         public bool IsFull() => Size >= Capacity;
     }

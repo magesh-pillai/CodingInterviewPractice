@@ -12,7 +12,7 @@ namespace Chapter3Tests
         {
             Assert.Throws(typeof(ArgumentOutOfRangeException), () => new FixedSizeThreeStack<string>(2));
         }
-/*
+
         [Test]
         public void FixedSizeThreeStack_PushIntoAll3Stacks()
         {
@@ -46,6 +46,7 @@ namespace Chapter3Tests
             Assert.Throws(typeof(Exception), () => subject.Push(1, "b"));
         }
 
+
         [Test]
         public void FixedSizeThreeStack_CheckStackUnderflow()
         {
@@ -58,16 +59,15 @@ namespace Chapter3Tests
         public void FixedSizeThreeStack_InsertElementsUntilFull_PeekTop()
         {
             var subject = new FixedSizeThreeStack<string>(15);
-            foreach (var c in new { "a", "e", "i", "o", "u"})
+            foreach (var c in new []{ "a", "e", "i", "o", "u"})
             {
                 subject.Push(3, c);
             }
 
-            foreach (var c in new { "u", "o", "i", "e", "a" })
+            foreach (var c in new []{ "u", "o", "i", "e", "a" })
             {
                 Assert.AreEqual(c, subject.Pop(3));
             }
         }
-        */
-    }
+     }
 }
