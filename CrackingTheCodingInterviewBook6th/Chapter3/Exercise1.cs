@@ -8,6 +8,7 @@ namespace Chapter3
         T Pop(int stackNumber);
         T Peek(int stackNumber);
         bool IsEmpty(int stackNumber);
+        bool IsFull(int stackNumber);
     }
 
     //
@@ -32,7 +33,7 @@ namespace Chapter3
             {   
                 new StackArraySegment { Start = 0, Capacity = segmentSize },
                 new StackArraySegment { Start = segmentSize * 1, Capacity = segmentSize },
-                new StackArraySegment { Start = segmentSize * 2, Capacity = _buffer.Length - segmentSize },
+                new StackArraySegment { Start = segmentSize * 2, Capacity = _buffer.Length - segmentSize * 2 },
             };
         }
 
@@ -77,6 +78,8 @@ namespace Chapter3
         }
 
         public bool IsEmpty(int stackNumber) => _segments[ToStackSegmentNumberOrThrow(stackNumber)].IsEmpty();
+        public bool IsFull(int stackNumber) => _segments[ToStackSegmentNumberOrThrow(stackNumber)].IsFull();
+
     }
 
     internal class StackArraySegment
@@ -85,9 +88,7 @@ namespace Chapter3
         public int Start { get; set; }
         public int Top { get; set; } = -1;
         public int Capacity { get; set; }
-
         public bool IsEmpty() => Size <= 0;
-
         public bool IsFull() => Size >= Capacity;
     }
 }

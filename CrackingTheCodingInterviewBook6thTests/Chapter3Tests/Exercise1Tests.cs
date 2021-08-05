@@ -69,5 +69,27 @@ namespace Chapter3Tests
                 Assert.AreEqual(c, subject.Pop(3));
             }
         }
+
+        [Test]
+        public void FixedSizeThreeStack_PushIntoFullStack_ThrowsException()
+        {
+            var subject = new FixedSizeThreeStack<string>(7);
+
+            subject.Push(1, "a");
+            subject.Push(2, "b");
+            subject.Push(3, "c");
+            subject.Push(1, "d");
+            subject.Push(2, "e");
+            subject.Push(3, "f");
+            subject.Push(3, "g");
+
+            Assert.IsTrue(subject.IsFull(1));
+            Assert.IsTrue(subject.IsFull(2));
+            Assert.IsTrue(subject.IsFull(3));
+            Assert.IsFalse(subject.IsEmpty(1));
+            Assert.IsFalse(subject.IsEmpty(2));
+            Assert.IsFalse(subject.IsEmpty(3));
+            Assert.Throws(typeof(Exception), () => subject.Push(2, "z"));
+        }
      }
 }
