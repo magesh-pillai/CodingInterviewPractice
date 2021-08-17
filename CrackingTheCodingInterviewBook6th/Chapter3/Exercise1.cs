@@ -33,18 +33,13 @@ namespace Chapter3
             {   
                 new StackArraySegment { Start = 0, Capacity = segmentSize },
                 new StackArraySegment { Start = segmentSize * 1, Capacity = segmentSize },
-                new StackArraySegment { Start = segmentSize * 2, Capacity = _buffer.Length - segmentSize * 2 },
+                new StackArraySegment { Start = segmentSize * 2, Capacity = _buffer.Length - (segmentSize * 2) },
             };
-        }
-
-        private void ThrowIfInvalidStackNumber(int stackNumber) 
-        {
-            if (stackNumber < 1 || stackNumber > 3) throw new ArgumentOutOfRangeException(nameof(stackNumber));
         }
 
         private int ToStackSegmentNumberOrThrow(int stackNumber) 
         {
-            ThrowIfInvalidStackNumber(stackNumber);
+            if (stackNumber < 1 || stackNumber > 3) throw new ArgumentOutOfRangeException(nameof(stackNumber));
             return stackNumber - 1;
         }
 
