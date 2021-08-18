@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
-using System.Collections.Generic;
 using Chapter2;
+using Common;
 
 namespace Chapter2Tests
 {
