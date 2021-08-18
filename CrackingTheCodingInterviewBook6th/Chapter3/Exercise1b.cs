@@ -62,7 +62,7 @@ namespace Chapter3
 
         private void Expand(int stackIndex)
         {
-            Shift(stackIndex + 1 % 3);
+            Shift((stackIndex + 1) % 3);
             _stacks[stackIndex].Capacity++;
         }
 
@@ -72,7 +72,7 @@ namespace Chapter3
 
             if (stack.IsFull())
             {
-                Shift(stackIndex + 1 % 3);
+                Shift((stackIndex + 1) % 3);
             }
             else
             {
@@ -90,8 +90,10 @@ namespace Chapter3
                 from = ArrayUtilities.ToCircularBoundedIndex(to - 1, TotalCapacity);
                 toMove--;
             }
-            stack.Start = to;
+
             _buffer[from] = default;
+            // If stack.Capacity == 0, then stack.Start will point to stack+1.Start
+            stack.Start = to;
         }
 
         public T Pop(int stackNumber)
