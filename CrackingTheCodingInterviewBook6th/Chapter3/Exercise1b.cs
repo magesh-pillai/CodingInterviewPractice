@@ -48,10 +48,11 @@ namespace Chapter3
         {
             if (AllStacksFull()) throw new Exception ($"{stackNumber} overflow");
 
-            var stack = _stacks[ToStackSegmentNumberOrThrow(stackNumber)];
+            var stackIndex = ToStackSegmentNumberOrThrow(stackNumber);
+            var stack = _stacks[stackIndex];
             if (stack.IsFull())
             {
-                Expand(stackNumber);
+                Expand(stackIndex);
             }
             stack.Size++;
             _buffer[stack.GetTop(TotalCapacity)] = item;
@@ -59,19 +60,19 @@ namespace Chapter3
 
         private bool AllStacksFull() => _stacks[0].IsFull() && _stacks[1].IsFull() && _stacks[2].IsFull();
 
-        private void Expand(int stackNumber)
+        private void Expand(int stackIndex)
         {
-            Shift(stackNumber + 1 % 3);
-            _stacks[stackNumber].Capacity++;
+            Shift(stackIndex + 1 % 3);
+            _stacks[stackIndex].Capacity++;
         }
 
-        private void Shift(int stackNumber)
+        private void Shift(int stackIndex)
         {
-            var stack = _stacks[stackNumber];
+            var stack = _stacks[stackIndex];
 
             if (stack.IsFull())
             {
-                Shift(stackNumber + 1 % 3);
+                Shift(stackIndex + 1 % 3);
             }
             else
             {
@@ -98,7 +99,9 @@ namespace Chapter3
             var stack = _stacks[ToStackSegmentNumberOrThrow(stackNumber)];
             if (stack.IsEmpty()) throw new Exception($"{stackNumber} underflow");
 
-            var item = _buffer[stack.GetTop(TotalCapacity)];
+            var top = stack.GetTop(TotalCapacity);
+            var item = _buffer[top];
+            _buffer[top] = default;
             stack.Size--;
             return item;
         }
@@ -109,10 +112,14 @@ namespace Chapter3
 
             if (stack.IsEmpty()) throw new Exception($"{stackNumber} underflow");
 
-            return _buffer[stack.GetTop(_buffer.Length)];
+            return _buffer[stack.GetTop(TotalCapacity)];
         }
 
         public bool IsEmpty(int stackNumber) => _stacks[ToStackSegmentNumberOrThrow(stackNumber)].IsEmpty();
-        public bool IsFull(int stackNumber) => _stacks[ToStackSegmentNumberOrThrow(stackNumber)].IsFull();
+        public bool IsFull(int stackNumber) 
+        {
+            ToStackSegmentNumberOrThrow(stackNumber);
+            return AllStacksFull();
+        }
     }
 }
