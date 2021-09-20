@@ -39,6 +39,13 @@ namespace Chapter4Tests
             get
             {
                 yield return new (2, new [] { (0,1), (1,0) }, 0, 1, true);
+
+                var g1 = new [] { (0,1), (3,0), (3,2), (4,0) };
+                yield return new (5, g1, 3, 4, false);
+                yield return new (5, g1, 3, 2, true);
+                yield return new (5, g1, 3, 1, true);
+                yield return new (5, g1, 4, 1, true);
+                yield return new (5, g1, 4, 2, false);
             }
         }
     }

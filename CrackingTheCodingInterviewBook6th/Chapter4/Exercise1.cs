@@ -7,6 +7,10 @@ namespace Chapter4
 
     public class RouteChecker
     {
+       /**
+        * Determines if directed graph g has a path from
+        * vertex s to t. O(V+E) time complexity. O(V) stack space.
+        */
         public static bool HasRoute(Graph g, int s, int t)
         {
             ValidateVertex(g, s, nameof(s));

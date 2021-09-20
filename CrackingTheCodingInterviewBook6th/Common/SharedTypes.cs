@@ -57,4 +57,11 @@ namespace Common
             Data = data;
         }
     }
+
+    public class TreeNode<T>
+    {
+        public T Data;
+        public TreeNode<T> Left;
+        public TreeNode<T> Right;
+    }
 }
