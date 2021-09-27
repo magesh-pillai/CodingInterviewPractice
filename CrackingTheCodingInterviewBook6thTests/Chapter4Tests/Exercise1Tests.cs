@@ -12,15 +12,15 @@ namespace Chapter4Tests
         [Test]
         public void HasRoute_SingleNodeWithSelfLoopGraph()
         {
-            var subject = new Graph(1, new List<(int, int)> { (0,0) }, true);
+            var subject = new Graph(1, new List<(int, int)> { (1,1) }, true);
 
-            Assert.IsTrue(RouteChecker.HasRoute(subject, 0, 0));
+            Assert.IsTrue(RouteChecker.HasRoute(subject, 1, 1));
         }
 
         [Test]
         public void HasRoute_InvalidVertexIndex()
         {
-            var subject = new Graph(2, new List<(int, int)> { (0,1), (1,0)  }, true);
+            var subject = new Graph(2, new List<(int, int)> { (1,2), (2,1)  }, true);
 
              Assert.Throws(typeof(ArgumentOutOfRangeException), () => RouteChecker.HasRoute(subject, 5, 1));
         }
@@ -38,14 +38,14 @@ namespace Chapter4Tests
         {
             get
             {
-                yield return new (2, new [] { (0,1), (1,0) }, 0, 1, true);
+                yield return new (2, new [] { (1,2), (2,1) }, 1, 2, true);
 
-                var g1 = new [] { (0,1), (3,0), (3,2), (4,0) };
-                yield return new (5, g1, 3, 4, false);
-                yield return new (5, g1, 3, 2, true);
-                yield return new (5, g1, 3, 1, true);
-                yield return new (5, g1, 4, 1, true);
-                yield return new (5, g1, 4, 2, false);
+                var g1 = new [] { (1,2), (4,1), (4,3), (5,1) };
+                yield return new (5, g1, 4, 5, false);
+                yield return new (5, g1, 4, 3, true);
+                yield return new (5, g1, 4, 2, true);
+                yield return new (5, g1, 5, 2, true);
+                yield return new (5, g1, 5, 3, false);
             }
         }
     }

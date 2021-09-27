@@ -4,19 +4,22 @@ using System.Collections.ObjectModel;
 
 namespace Common
 {
+
+    public enum VertexState { Undiscovered, Discovered, Processed };
+
     public class Graph
     {
         private HashSet<int>[] _adjList;
 
         public Graph(int v, IList<(int from, int to)> edges, bool isDirected)       
         {
-            if (v <= 0) throw new ArgumentOutOfRangeException("v");
+            if (v < 1) throw new ArgumentOutOfRangeException("v");
 
             V = v;
             IsDirected = isDirected;
 
-            _adjList = new HashSet<int>[V];
-            for(var i = 0; i < V; i++)
+            _adjList = new HashSet<int>[V+1];
+            for(var i = 1; i <= V; i++)
             {
                 _adjList[i] = new HashSet<int>(V);
             }
@@ -26,7 +29,7 @@ namespace Common
                 AddEdge(e.from, e.to, IsDirected);
             }
 
-            for(var i = 0; i < V; i++)
+            for(var i = 1; i <= V; i++)
             {
                 _adjList[i].TrimExcess();
             }
@@ -38,23 +41,27 @@ namespace Common
             ValidateVertexIndexOrThrow(to);
 
             _adjList[from].Add(to);
+            E++;
             if (!isDirected)
             {
                 _adjList[to].Add(from);
+                E++;
             }
         } 
 
         private void ValidateVertexIndexOrThrow(int vertexIndex) 
         {
-            if (vertexIndex < 0 || vertexIndex > V-1)
+            if (vertexIndex < 1 || vertexIndex > V)
             {
-                throw new ArgumentOutOfRangeException($"{vertexIndex} is not in the range 0 to {V-1}");
+                throw new ArgumentOutOfRangeException($"{vertexIndex} is not in the range 1 to {V}");
             }
         }
 
         public int V { get; private set; }
 
-        public IReadOnlyCollection<int> E(int vertexIndex)
+        public int E { get; private set; }
+
+        public IReadOnlyCollection<int> Edges(int vertexIndex)
         {
             ValidateVertexIndexOrThrow(vertexIndex);
             return _adjList[vertexIndex];

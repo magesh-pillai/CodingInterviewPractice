@@ -18,7 +18,7 @@ namespace Chapter4
 
             if (s == t) return true;
 
-            var vertexStatuses = new Status[g.V];
+            var vertexStatuses = new Status[g.V+1];
             return HasRoute(g, s, t, vertexStatuses);
         }
 
@@ -26,7 +26,7 @@ namespace Chapter4
         {
             vertexStatuses[s] = Status.Discovered;
 
-            foreach(var to in g.E(s))
+            foreach(var to in g.Edges(s))
             {
                 if (to == t) return true;
 
@@ -42,7 +42,7 @@ namespace Chapter4
 
         private static void ValidateVertex(Graph g, int vertex, string errorMsg) 
         {
-            if (vertex < 0 || vertex >= g.V)
+            if (vertex < 1 || vertex > g.V)
             {
                 throw new ArgumentOutOfRangeException($"{errorMsg}");
             }
