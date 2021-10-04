@@ -70,13 +70,30 @@ namespace Misc
         {
         }
 
-        public void FindPath(int start, int end, IList<int> path)
+        public IList<int> FindPath(int start, int end)
         {
-           if (_processed[start] != VertexState.Processed) throw new InvalidOperationException($"Run BFS first on {start} node.");
+            if (start < 1 || start > (_parent?.Length ?? 0)) throw new ArgumentOutOfRangeException(nameof(start));
 
-           if (start == end || end == 0) path.Add(start);
-           FindPath(start, _parent[end], path);
-           path.Add(end);
+            if (end < 1 || end > (_parent?.Length ?? 0)) throw new ArgumentOutOfRangeException(nameof(end));
+
+            if (_processed[start] != VertexState.Processed) throw new InvalidOperationException($"Run BFS first starting from {start} node.");
+
+            var path = new List<int>(_parent.Length);
+            FindPath(start, end, path);
+            return path;
+        }
+
+        private void FindPath(int start, int end, IList<int> path)
+        {
+           if (start == end || end == 0) 
+           {
+               path.Add(start);
+           }
+           else
+           {              
+               FindPath(start, _parent[end], path);
+               path.Add(end);
+           }
         }
     }
 }
