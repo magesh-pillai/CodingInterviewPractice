@@ -11,9 +11,8 @@ namespace Misc
     */
     public class BreadthFirstSearch
     {
-        private VertexState[] _discovered;
-        private VertexState[] _processed;           
-        private int[] _parent;
+        protected VertexState[] _state;
+        protected int[] _parent;
 
         public void Search(Graph g, int start)
         {
@@ -21,34 +20,33 @@ namespace Misc
 
             if (start < 1 || start > g.V) throw new ArgumentOutOfRangeException(nameof(start));
 
-            _discovered = new VertexState[g.V+1];
-            _processed = new VertexState[g.V+1];
+            _state = new VertexState[g.V+1];
             _parent = new int[g.V+1];
 
             var q = new Queue<int>(g.V);
             q.Enqueue(start);
-            _discovered[start] = VertexState.Discovered;
+            _state[start] = VertexState.Discovered;
 
             while (q.TryDequeue(out var s))
             {
                 ProcessVertexEarly(s);
-                _processed[s] = VertexState.Processed;
+                _state[s] = VertexState.Processed;
 
                 foreach (var t in g.Edges(s))
                 {
-                    if (_discovered[t] == VertexState.Undiscovered)
+                    if (_state[t] == VertexState.Undiscovered)
                     {
                         q.Enqueue(t);
-                        _discovered[t] = VertexState.Discovered;
+                        _state[t] = VertexState.Discovered;
                         _parent[t] = s;
                     }
 
                     // This condition is for processing the specific edge.
-                    // In a directed graph, if we have explicit edges like v->e and then e->v,
-                    // this processes each edge once.
-                    // In an undirected graph, the v->e is processed only once in the direction
-                    // of discovery.
-                    if (_processed[t] != VertexState.Processed || g.IsDirected)
+                    // (a) The first case is for an undirected graph: an edge like v<->e 
+                    // is processed only once in the direction of discovery.
+                    // (b) The second case is for a directed graph: if we have explicit 
+                    // edges like v->e and then e->v, this processes each edge once.
+                    if (_state[t] != VertexState.Processed || g.IsDirected)
                     {
                         ProcessEdge(s,t);
                     }
@@ -58,7 +56,7 @@ namespace Misc
             }
         }
 
-        protected virtual void ProcessVertexEarly(int vertex)
+        protected virtual void ProcessVertexEarly(int x)
         {
         }
 
@@ -66,7 +64,7 @@ namespace Misc
         {
         }
 
-        protected virtual void ProcessVertexLate(int vertex)
+        protected virtual void ProcessVertexLate(int x)
         {
         }
 
@@ -76,7 +74,7 @@ namespace Misc
 
             if (end < 1 || end > (_parent?.Length ?? 0)) throw new ArgumentOutOfRangeException(nameof(end));
 
-            if (_processed[start] != VertexState.Processed) throw new InvalidOperationException($"Run BFS first starting from {start} node.");
+            if (_state[start] == VertexState.Undiscovered) throw new InvalidOperationException($"Run BFS first starting from {start} node.");
 
             var path = new List<int>(_parent.Length);
             FindPath(start, end, path);

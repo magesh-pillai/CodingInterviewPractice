@@ -7,6 +7,8 @@ namespace Common
 
     public enum VertexState { Undiscovered, Discovered, Processed };
 
+    public enum EdgeType { Tree, Back, Forward, Cross };
+
     public class Graph
     {
         private HashSet<int>[] _adjList;

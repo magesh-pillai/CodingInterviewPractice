@@ -7,14 +7,14 @@ using System.Linq;
 namespace MiscTests
 {
     [TestFixture]
-    public class BreadthFirstSearchTests
+    public class DepthFirstSearchTests
     {
         [Test]
         [TestCaseSource(nameof(DefaultTestCaseSource))]
-        public void BreadthFirstSearch_DefaultCases((int v, (int, int)[] edges, int s, int t, bool directed, int[] expectedPath) data)
+        public void DepthFirstSearch_DefaultCases((int v, (int, int)[] edges, int s, int t, bool directed, int[] expectedPath) data)
         {
             var g = new Graph(data.v, new List<(int, int)>(data.edges), data.directed);
-            var subject = new BreadthFirstSearch();
+            var subject = new DepthFirstSearch();
 
             subject.Search(g, data.s);
             var path = subject.FindPath(data.s, data.t);
@@ -32,7 +32,7 @@ namespace MiscTests
                 (4,5)
             };
 
-            yield return new(6, g, 1, 4, false, new [] {1,5,4});
+            yield return new(6, g, 1, 4, false, new [] {1,2,3,4});
             yield return new(6, g, 1, 3, false, new [] {1,2,3});
             yield return new(6, g, 1, 1, false, new [] {1});
 
