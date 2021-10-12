@@ -11,22 +11,25 @@ namespace Chapter5
         // this is not possible.
         //
         // Remarks: I totally mis-understood this question and messed it up.
-        //          Incorrect thought process by presuming that this require 
+        //          Incorrect thought process by presuming that this required 
         //          actually interpreting the double binary format!.
         //          The clue is 0.0 < r < 1.0.
-        //          Alternatives: try to multiple r by 2^32.
+        //          Alternatives: try to multiply by 2^32.
         //
         public static string DoubleTo32LengthBinaryString(double r)
         {
-            if (r < Double.Epsilon || r  > (1.0 - Double.Epsilon)) throw new ArgumentOutOfRangeException(nameof(r));
+            if (r <= Double.Epsilon || r  >= (1.0 - Double.Epsilon)) throw new ArgumentOutOfRangeException(nameof(r));
 
             var result = new StringBuilder(32);
             while (r > Double.Epsilon)
             {
+                Console.WriteLine($"r = {r}");
                 if (result.Length > 32) return "ERROR";
 
+                // The key is not to shift left the binary representation of 
+                // the double!!.
                 r = r * 2;
-                if (r > 1.0)
+                if (r >= 1.0 - Double.Epsilon)
                 {
                     result.Append("1");
                     r = r - 1.0;
