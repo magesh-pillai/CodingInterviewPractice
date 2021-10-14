@@ -5,6 +5,8 @@ namespace Chapter5
 {
     public static class Exercise2
     {
+        private const double Epsilon = 1.0E-16d;
+
         //
         // Print the binary representation of a real number between 0 and 1
         // with at most 32 characters (excl. "0." in front). Print "ERROR" if
@@ -18,10 +20,10 @@ namespace Chapter5
         //
         public static string DoubleTo32LengthBinaryString(double r)
         {
-            if (r <= Double.Epsilon || r  >= (1.0 - Double.Epsilon)) throw new ArgumentOutOfRangeException(nameof(r));
+            if (r < Epsilon || r  > (1.0 - Epsilon)) throw new ArgumentOutOfRangeException(nameof(r));
 
             var result = new StringBuilder(32);
-            while (r > Double.Epsilon)
+            while (r > Epsilon)
             {
                 Console.WriteLine($"r = {r}");
                 if (result.Length > 32) return "ERROR";
